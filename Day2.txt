@@ -1,0 +1,215 @@
+Complete DevOps Practical Workflow 
+1. VMware Setup (Windows)
+• Install VMware Workstation Player.
+• Create Ubuntu Server VM (4GB RAM, 20GB Disk, NAT Network).
+• Start VM and login.
+2. Ubuntu Server Initial Configuration
+sudo apt update
+sudo apt upgrade -y
+ip a
+sudo apt install openssh-server -y
+sudo systemctl start ssh
+sudo systemctl enable ssh
+sudo ufw allow ssh
+sudo ufw reload
+3. SSH from Windows PowerShell
+ssh username@VM_IP
+4. VS Code Remote SSH Setup
+• Install VS Code
+• Install 'Remote - SSH' Extension
+• Connect using SSH
+hostname
+5. Docker Installation in Ubuntu
+sudo apt install ca-certificates curl -y
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker $USER
+newgrp docker
+6. Docker Image Workflow
+docker build -t image_name:tag .
+docker images
+docker run -d -p host_port:container_port image_name:tag
+docker login
+docker tag image_name:tag username/repository:tag
+docker push username/repository:tag
+docker pull username/repository:tag
+docker ps
+docker stop container_name
+docker rm container_name
+docker rmi image_name
+7. Git & GitHub Configuration
+git --version
+git config --global user.name "YourName"
+git config --global user.email "your_email@example.com"
+ssh-keygen -t ed25519 -C "your_email@example.com"
+cat ~/.ssh/id_ed25519.pub
+ssh -T git@github.com
+git clone git@github.com:username/repository.git
+git add .
+git commit -m "commit message"
+git push -u origin main
+git branch
+git checkout -b dev
+8. Practical Commands Executed in VM
+docker build -t vaishnavisubramaniam/docker_sample:latest .
+docker push vaishnavisubramaniam/docker_sample:latest
+docker build -t vaishnavisubramaniam/mynginxweb:1.0 .
+docker push vaishnavisubramaniam/mynginxweb:1.0
+docker pull vaishnavisubramaniam/mynginxweb:1.0
+docker run --name mywebapp -p 5000:80 -d vaishnavisubramaniam/mynginxweb:1.0
+Final Outcome
+✔ VMware setup completed
+✔ Ubuntu Server installed
+✔ SSH configured
+✔ VS Code remote connection established
+✔ Docker installed and configured
+✔ Docker images built, tagged, pushed, and pulled
+✔ GitHub SSH authentication configured
+✔ Containers successfully deployed
+
+
+
+DOCKER NODE JS EXPRESS APPLICATION – STEP BY STEP GUIDE
+
+STEP 1: Install Node.js (If not installed)
+
+Check node version:
+node -v
+npm -v
+
+If not installed, install Node.js from official website.
+
+STEP 2: Create Project Folder
+
+mkdir docker-basic-app
+cd docker-basic-app
+
+STEP 3: Create package.json File
+
+nano package.json
+
+Paste:
+
+{
+"name": "docker-basic-app",
+"version": "1.0.0",
+"main": "app.js",
+"scripts": {
+"start": "node app.js"
+},
+"dependencies": {
+"express": "^4.18.2"
+}
+}
+
+Save and exit.
+
+STEP 4: Install Dependencies
+
+npm install
+
+This creates node_modules folder.
+
+STEP 5: Create app.js File
+
+nano app.js
+
+Paste:
+
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+res.send('Hello from Docker!');
+});
+
+app.listen(3000, () => {
+console.log('App running on port 3000');
+});
+
+Save and exit.
+
+STEP 6: Test Application Locally
+
+node app.js
+
+Open browser:
+http://localhost:3000
+
+You should see:
+Hello from Docker!
+
+Stop server:
+Ctrl + C
+
+STEP 7: Create Dockerfile
+
+nano Dockerfile
+
+Paste:
+
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["node", "app.js"]
+
+Save and exit.
+
+STEP 8: Build Docker Image
+
+Check Docker:
+docker --version
+
+Build image:
+docker build -t docker-basic-app .
+
+STEP 9: Run Docker Container
+
+docker run -d -p 3000:3000 docker-basic-app
+
+Explanation:
+-d = Run in background
+-p 3000:3000 = Map local port 3000 to container port 3000
+
+STEP 10: Check Running Containers
+
+docker ps
+
+STEP 11: Access Application
+
+Open browser:
+http://localhost:3000
+
+Output:
+Hello from Docker!
+
+STEP 12: Stop Container
+
+docker ps
+docker stop <container_id>
+
+STEP 13: Remove Container (Optional)
+
+docker rm <container_id>
+
+STEP 14: Remove Image (Optional)
+
+docker rmi docker-basic-app
+
+PROJECT STRUCTURE
+
+docker-basic-app/
+│
+├── app.js
+├── package.json
+├── package-lock.json
+├── Dockerfile
+└── node_modules/
