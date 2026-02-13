@@ -1,5 +1,6 @@
 
 # DevOps Project: 
+ 
 🚀 Project Overview
 
 This project demonstrates a complete DevOps pipeline for deploying applications using modern tools and cloud infrastructure. It integrates Linux, Docker, Jenkins, Nginx, AWS, and Terraform to automate build, deployment, and infrastructure provisioning.
@@ -44,10 +45,7 @@ cd <directory>  # Change directory
 mkdir <name>    # Create directory
 rm -rf <name>   # Remove file/directory
 chmod +x <file> # Make script executable
-nano/<editor>   # Edit files
-
-
-These commands are used for server setup, script execution, and deployment tasks.
+nano <file>     # Edit files
 
 🐳 Docker Commands & Setup
 
@@ -55,14 +53,14 @@ Docker is used to containerize the web application.
 
 Basic Commands:
 
-docker --version                    # Check Docker version
-docker build -t myapp:latest .      # Build Docker image
-docker images                        # List Docker images
-docker run -d -p 8080:80 myapp:latest  # Run container
-docker ps                             # List running containers
-docker stop <container_id>           # Stop a container
-docker rm <container_id>             # Remove a container
-docker rmi <image_id>                # Remove image
+docker --version                           # Check Docker version
+docker build -t myapp:latest .             # Build Docker image
+docker images                               # List Docker images
+docker run -d -p 8080:80 myapp:latest      # Run container
+docker ps                                   # List running containers
+docker stop <container_id>                  # Stop a container
+docker rm <container_id>                    # Remove a container
+docker rmi <image_id>                       # Remove image
 
 
 Dockerfile Example:
@@ -79,7 +77,7 @@ CMD ["node", "server.js"]
 
 Nginx is configured as a reverse proxy to route traffic to the Docker container.
 
-Basic Nginx setup:
+Sample Nginx Configuration:
 
 server {
     listen 80;
@@ -176,7 +174,7 @@ resource "aws_instance" "web" {
 }
 
 
-Commands to run Terraform:
+Terraform Commands:
 
 terraform init     # Initialize Terraform
 terraform plan     # Preview changes
