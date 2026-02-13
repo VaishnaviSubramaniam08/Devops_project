@@ -1,0 +1,196 @@
+
+NGINX STATIC WEBSITE USING DOCKER – STEP BY STEP GUIDE
+
+STEP 1: Install Docker (If not installed)
+
+Check Docker version:
+
+docker --version
+
+If not installed, install Docker first.
+
+STEP 2: Create Project Folder
+
+mkdir nginx-app
+cd nginx-app
+
+STEP 3: Create HTML Folder
+
+mkdir html
+cd html
+
+STEP 4: Create index.html File
+
+nano index.html
+
+Paste your full HTML code inside this file.
+
+Save and exit.
+
+Go back to main folder:
+
+cd ..
+
+Your project structure should look like:
+
+nginx-app/
+│
+├── Dockerfile
+└── html/
+  └── index.html
+
+STEP 5: Create Dockerfile
+
+nano Dockerfile
+
+Paste:
+
+FROM nginx:latest
+COPY ./html /usr/share/nginx/html
+
+Save and exit.
+
+STEP 6: Build Docker Image
+
+docker build -t my-nginx-app .
+
+Explanation:
+-t my-nginx-app → Image name
+. → Current directory
+
+STEP 7: Run Docker Container
+
+docker run -d -p 8080:80 my-nginx-app
+
+Explanation:
+-d → Run in background
+-p 8080:80 → Map local port 8080 to container port 80
+
+STEP 8: Check Running Container
+
+docker ps
+
+STEP 9: Access Website
+
+Open browser and type:
+
+http://localhost:8080
+
+You will see:
+
+Welcome to My Nginx App!
+
+STEP 10: Stop Container
+
+docker ps
+docker stop <container_id>
+
+STEP 11: Remove Container (Optional)
+
+docker rm <container_id>
+
+STEP 12: Remove Image (Optional)
+
+docker rmi my-nginx-app
+
+WORKFLOW SUMMARY
+
+Create HTML file
+
+Create Dockerfile
+
+Build Docker image
+
+Run container
+
+Access website in browser
+
+
+
+
+
+JENKINS INSTALLATION GUIDE (UBUNTU)
+
+STEP 1: Update System
+
+sudo apt update
+sudo apt upgrade -y
+
+STEP 2: Install Java (Jenkins Requirement)
+
+Jenkins requires Java.
+
+Check if Java is installed:
+
+java -version
+
+If not installed:
+
+sudo apt install openjdk-17-jdk -y
+
+Verify:
+
+java -version
+
+STEP 3: Add Jenkins Repository Key
+
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+ | sudo tee
+/usr/share/keyrings/jenkins-keyring.asc > /dev/null
+
+STEP 4: Add Jenkins Repository
+
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]
+https://pkg.jenkins.io/debian-stable
+ binary/ | sudo tee
+/etc/apt/sources.list.d/jenkins.list > /dev/null
+
+STEP 5: Update Packages Again
+
+sudo apt update
+
+STEP 6: Install Jenkins
+
+sudo apt install jenkins -y
+
+STEP 7: Start Jenkins
+
+sudo systemctl start jenkins
+
+Enable Jenkins to start automatically:
+
+sudo systemctl enable jenkins
+
+Check status:
+
+sudo systemctl status jenkins
+
+STEP 8: Open Jenkins in Browser
+
+Jenkins runs on port 8080.
+
+Open browser:
+
+http://localhost:8080
+
+If using EC2:
+
+http://<your-public-ip>:8080
+
+STEP 9: Get Initial Admin Password
+
+Run:
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+Copy the password and paste in browser.
+
+STEP 10: Setup Jenkins
+
+Choose "Install Suggested Plugins"
+
+Create Admin Username and Password
+
+Finish setup
+
+Jenkins is now installed successfully ✅
