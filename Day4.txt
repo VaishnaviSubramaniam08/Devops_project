@@ -1,0 +1,287 @@
+
+CREATE NEW ITEM IN JENKINS (NAME: devops)
+
+STEP 1: Open Jenkins
+
+Open your browser and type:
+
+http://localhost:8080
+
+(or)
+http://<your-server-ip>:8080
+
+Login with your Jenkins username and password.
+
+STEP 2: Click New Item
+
+On the Jenkins dashboard (left side menu), click:
+
+New Item
+
+STEP 3: Enter Item Name
+
+In the "Enter an item name" field, type:
+
+devops
+
+STEP 4: Select Project Type
+
+Below the name field:
+
+Select → freestyle project
+
+STEP 5: Click OK
+
+Click the OK button.
+
+Now your new Jenkins item named devops is created successfully ✅
+
+
+TRIGGER CREATION:
+
+STEP 1: Create job1
+
+Open Jenkins
+
+Click New Item
+
+Enter name: job1
+
+Select Freestyle project
+
+Click OK
+
+Scroll down → Click Save
+
+STEP 2: Create job2
+
+Click New Item
+
+Enter name: job2
+
+Select Freestyle project
+
+Click OK
+
+Scroll down → Click Save
+
+Now both jobs are created.
+
+STEP 3: Configure job1 to Trigger job2
+
+Click job1
+
+Click Configure
+
+Scroll down to:
+
+Post-build Actions
+
+Click Add post-build action
+
+Select:
+
+Build other projects
+
+In the field “Projects to build”, type:
+
+job2
+
+Select:
+
+Trigger only if build is stable
+
+Click Save
+
+STEP 4: Test the Trigger
+
+Click job1
+
+Click Build Now
+
+What will happen:
+
+✔ job1 runs first
+✔ After job1 completes successfully
+✔ job2 starts automatically
+
+You can see both jobs running in the dashboard.
+
+OPTIONAL: Add Simple Build Step to See Output
+
+In job1 → Configure → Build Steps → Add build step → Execute shell
+
+Add:
+
+echo "Running Job 1"
+
+In job2 → Configure → Build Steps → Execute shell
+
+Add:
+
+echo "Running Job 2"
+
+Now build job1.
+Console output will show:
+
+Running Job 1
+Then job2 will start and show:
+Running Job 2
+
+FLOW DIAGRAM
+
+job1 → job2
+
+
+
+CI/CD PIPELINE :
+
+STEP 1: Push Your Project to GitHub
+
+Your GitHub repo must contain:
+
+Dockerfile
+server.js
+index.html
+package.json
+
+Push code:
+
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/your-username/your-repo.git
+
+git push -u origin main
+
+STEP 2: Install Required Jenkins Plugins
+
+Go to:
+
+Manage Jenkins → Manage Plugins
+
+Install:
+
+✔ Git Plugin
+✔ Docker Pipeline Plugin
+
+Restart Jenkins.
+
+STEP 3: Create New Pipeline Job
+
+Click New Item
+
+Name: devops-pipeline
+
+Select Pipeline
+
+Click OK
+
+STEP 4: Configure Pipeline
+
+Scroll to Pipeline section.
+
+Definition → Select:
+
+Pipeline script
+
+Paste this pipeline code:
+
+pipeline {
+agent any
+
+environment {
+    IMAGE_NAME = "vaishh-node-app"
+    CONTAINER_NAME = "vaishh-container"
+}
+
+stages {
+
+    stage('Clone Repository') {
+        steps {
+            git 'https://github.com/your-username/your-repo.git'
+        }
+    }
+
+    stage('Build Docker Image') {
+        steps {
+            sh 'docker build -t $IMAGE_NAME .'
+        }
+    }
+
+    stage('Stop Old Container') {
+        steps {
+            sh 'docker rm -f $CONTAINER_NAME || true'
+        }
+    }
+
+    stage('Run Docker Container') {
+        steps {
+            sh 'docker run -d -p 5000:5000 --name $CONTAINER_NAME $IMAGE_NAME'
+        }
+    }
+
+}
+
+
+}
+
+Replace:
+
+https://github.com/your-username/your-repo.git
+
+with your real GitHub repository URL.
+
+Click Save.
+
+STEP 5: Run Pipeline
+
+Click:
+
+Build Now
+
+Go to:
+
+Console Output
+
+You will see:
+
+✔ Cloning repo
+✔ Building Docker image
+✔ Running container
+
+STEP 6: Access Your App
+
+Open browser:
+
+http://localhost:5000
+
+OR (if EC2):
+
+http://<public-ip>:5000
+
+You will see your CI/CD webpage:
+
+"Hello Vaishh – Jenkins and Docker deployment running successfully"
+
+OPTIONAL: Add GitHub Auto Trigger (Webhook)
+
+In Pipeline → Configure → Build Triggers
+
+Tick:
+
+GitHub hook trigger for GITScm polling
+
+In GitHub:
+
+Settings → Webhooks
+Add webhook:
+
+http://<your-server-ip>:8080/github-webhook/
+
+Now whenever you push code → Jenkins builds automatically 🔥
+
+FULL FLOW
+
+GitHub → Jenkins → Docker Build → Docker Run → Deployed App
