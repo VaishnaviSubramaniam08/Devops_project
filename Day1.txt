@@ -3,7 +3,8 @@ Complete Linux Commands Notes
 1.Directory Commands
 pwd - Print Working Directory (Shows current location)
 ls - List files and folders
-ls -l - Detailed list format
+ls -l - Detailed list formatgit commit -m "Initial commit"
+
 ls -a - Show hidden files
 cd foldername - Change directory
 cd .. - Go to parent directory
