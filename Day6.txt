@@ -1,1 +1,10 @@
+Ansible Installation in Ubuntu
+Step 1: Update Package List
+sudo apt update
 
+Step 2: Install Ansible
+sudo apt install ansible -y
+
+Step 3: Verify Installation
+ansible --version
+If installed correctly, the Ansible version details will be displayed.
